@@ -1,23 +1,19 @@
 const express = require('express');
+const path = require('path');
 const res = require('express/lib/response');
 const app = express();
 const port = 3000;
 const mongoose = require('mongoose');
 
 
+const linkRoute = require('./routes/linkRoute')
+
+
 /* criando esquema para fazer inclusao ao banco do mongo*/
 
 
 
-const linkSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    url: String,
-    click: Number
-})
 
-
-const Link = mongoose.model('Link', linkSchema);
 
 // let link = new Link({
 //     title: "progbr",
@@ -64,23 +60,11 @@ mongoose.connect("mongodb://localhost/newlinks")
 let db = mongoose.connection;
 
 db.on("error", () => { console.log('houve um erro') })
-db.once("open", () => {
-    console.log('Banco Carregado')
+db.once("open", () => { console.log('Banco Carregado') })
+app.use('/', linkRoute)
 
-
-    app.get('/:title', async (req, res) => {
-        let title = req.params.title;
-        try {
-            let doc = await Link.findOne({ title })
-            res.redirect(doc.url);
-        } catch (error) {
-            res.send(error)
-        }
-    })
-
-
-
-})
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'templates'))
 
 
 
@@ -88,6 +72,4 @@ db.once("open", () => {
 
 
 
-
-app.get('/', (req, res) => res.send('Hello word'))
 app.listen(port, () => console.log('example listening on port'))
