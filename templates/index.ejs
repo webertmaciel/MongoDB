@@ -12,9 +12,9 @@
     <h1>Ola mundo</h1>
 
     <form action="/" method="POST">
-        <input class="field" name="title" placeholder="Title">
-        <input class="field" name="description" placeholder="Description">
-        <input class="field" name="url" placeholder="URL">
+        <input class="field" name="title" placeholder="Title" value="<%=body.title%>">
+        <input class="field" name="description" placeholder="Description" value="<%=body.description%>">
+        <input class="field" name="url" placeholder="URL"  value="<%=body.url%>">
         <button>Salvar</button>
     </form>
     <%if(error){%>
